@@ -43,8 +43,9 @@ function parseDataFromRfc2822(value) {
  *    '2016-01-19T16:07:37+00:00'    => Date()
  *    '2016-01-19T08:07:37Z' => Date()
  */
-function parseDataFromIso8601(/* value */) {
-  throw new Error('Not implemented');
+function parseDataFromIso8601(value) {
+  const date = new Date(value).valueOf();
+  return date;
 }
 
 
@@ -62,8 +63,20 @@ function parseDataFromIso8601(/* value */) {
  *    Date(2012,1,1)    => true
  *    Date(2015,1,1)    => false
  */
-function isLeapYear(/* date */) {
-  throw new Error('Not implemented');
+function isLeapYear(date) {
+  const locDate = new Date(date);
+  const year = +locDate.toLocaleString('en', { year: 'numeric' });
+
+  if (year % 4 !== 0) {
+    return false;
+  // eslint-disable-next-line no-else-return
+  } else if (year % 100 !== 0) {
+    return true;
+  } else if (year % 400 !== 0) {
+    return false;
+  } else {
+    return true;
+  }
 }
 
 
@@ -82,8 +95,27 @@ function isLeapYear(/* date */) {
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,10,0,0,250)     => "00:00:00.250"
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,15,20,10,453)   => "05:20:10.453"
  */
-function timeSpanToString(/* startDate, endDate */) {
-  throw new Error('Not implemented');
+function timeSpanToString(startDate, endDate) {
+  const stamp1 = new Date(startDate);
+  const stamp2 = new Date(endDate);
+  let ms = (stamp2 - stamp1) % 1000;
+  if (ms < 10) ms = `00${ms}`;
+  if (ms < 100 && ms > 9) ms = `0${ms}`;
+
+  const time1 = new Date(startDate).toLocaleTimeString();
+  const time2 = new Date(endDate).toLocaleTimeString();
+  const arr1 = time1.split(':');
+  const arr2 = time2.split(':');
+
+  let timeDiff = arr2.map((i, idx) => i - arr1[idx]);
+  timeDiff = timeDiff.map((i) => {
+    let unit = null;
+    unit = (i < 10) ? `0${i}` : `${i}`;
+    return unit;
+  });
+
+  const res = `${timeDiff[0]}:${timeDiff[1]}:${timeDiff[2]}.${ms}`;
+  return res;
 }
 
 

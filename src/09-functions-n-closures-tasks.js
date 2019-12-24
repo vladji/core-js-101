@@ -151,6 +151,20 @@ function retry(func, attempts) {
  */
 function logger(/* func, logFunc */) {
   throw new Error('Not implemented');
+  // return function foo(...args) {
+  //   console.log('args', args);
+
+  //   let mes = `${func.name}(${args}) starts`;
+  //   console.log('mes', mes);
+
+  //   logFunc(mes);
+  //   const res = func(args);
+
+  //   console.log('res', res);
+  //   mes = `${func.name}(${args}) ends`;
+  //   logFunc(mes);
+  //   return res;
+  // };
 }
 
 
