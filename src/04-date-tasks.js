@@ -19,8 +19,17 @@
  *    'Tue, 26 Jan 2016 13:48:02 GMT' => Date()
  *    'Sun, 17 May 1998 03:00:00 GMT+01' => Date()
  */
-function parseDataFromRfc2822(/* value */) {
-  throw new Error('Not implemented');
+function parseDataFromRfc2822(value) {
+  const date = new Date(value);
+  const year = +date.toLocaleString('en', { year: 'numeric' });
+  const month = +date.toLocaleString('en', { month: 'numeric' });
+  const day = +date.toLocaleString('en', { day: 'numeric' });
+  const hour = +date.toLocaleString('ru', { hour: 'numeric' });
+  const minute = +date.toLocaleString('en', { minute: 'numeric' });
+  const second = +date.toLocaleString('en', { second: 'numeric' });
+
+  const res = new Date(year, month - 1, day, hour, minute, second).valueOf();
+  return res;
 }
 
 /**
